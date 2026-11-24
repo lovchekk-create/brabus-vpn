@@ -1,0 +1,60 @@
+# Brabus VPN: builds the Android APKs (debug-signed until a release key is added).
+# Run it from Actions -> Brabus Android APK -> Run workflow. The APKs are in the run's Artifacts.
+name: Brabus Android APK
+
+on:
+  workflow_dispatch:
+
+env:
+  CHANNEL: prod
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Set up the Android SDK
+        uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3.2.2
+        with:
+          packages: platform-tools
+
+      - uses: ./.github/actions/setup-flutter
+        with:
+          platform: android-apk
+
+      - name: Build
+        run: make android-apk-release
+
+      - name: Collect the APKs
+        run: |
+          mkdir out
+          apk=build/app/outputs/flutter-apk
+          ls -la $apk
+          cp $apk/*arm64-v8a*.apk out/BrabusVPN-Android-arm64.apk || echo "no arm64 apk"
+          cp $apk/*armeabi-v7a*.apk out/BrabusVPN-Android-arm7.apk || echo "no arm7 apk"
+          cp $apk/app-release.apk out/BrabusVPN-Android-universal.apk || echo "no universal apk"
+          ls -la out
+
+      - name: Upload the APKs
+        uses: actions/upload-artifact@v6
+        with:
+          name: BrabusVPN-Android
+          path: out
+          retention-days: 14
+          compression-level: 0
+          if-no-files-found: error
