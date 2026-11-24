@@ -9,7 +9,8 @@ class AppTheme {
   final String fontFamily;
 
   ThemeData lightTheme(ColorScheme? lightColorScheme) {
-    final ColorScheme scheme = lightColorScheme ?? ColorScheme.fromSeed(seedColor: const Color(0xFF293CA0));
+    // Brabus: always the brand palette (amber on black), not the device's dynamic colors.
+    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: const Color(0xFFF5B83D)).copyWith(primary: const Color(0xFFB7791F), onPrimary: Colors.white);
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
@@ -19,12 +20,26 @@ class AppTheme {
   }
 
   ThemeData darkTheme(ColorScheme? darkColorScheme) {
-    final ColorScheme scheme =
-        darkColorScheme ?? ColorScheme.fromSeed(seedColor: const Color(0xFF293CA0), brightness: Brightness.dark);
+    // Brabus: matte black + amber accent.
+    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: const Color(0xFFF5B83D), brightness: Brightness.dark).copyWith(
+      primary: const Color(0xFFF5B83D),
+      onPrimary: const Color(0xFF0A0A0B),
+      primaryContainer: const Color(0xFF2A2312),
+      onPrimaryContainer: const Color(0xFFF5B83D),
+      surface: const Color(0xFF0A0A0B),
+      onSurface: const Color(0xFFF2F2F3),
+      surfaceContainerLow: const Color(0xFF141416),
+      surfaceContainer: const Color(0xFF141416),
+      surfaceContainerHigh: const Color(0xFF1C1C20),
+      surfaceContainerHighest: const Color(0xFF1C1C20),
+      onSurfaceVariant: const Color(0xFF9A9AA2),
+      outline: const Color(0xFF2A2A2E),
+      outlineVariant: const Color(0xFF232327),
+    );
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
-      scaffoldBackgroundColor: mode.trueBlack ? Colors.black : scheme.surface,
+      scaffoldBackgroundColor: const Color(0xFF0A0A0B),
       fontFamily: fontFamily,
       extensions: const <ThemeExtension<dynamic>>{ConnectionButtonTheme.light},
     );
