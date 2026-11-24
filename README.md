@@ -1,3 +1,23 @@
+# Brabus VPN
+
+Brabus VPN is a mobile VPN client **based on [Hiddify](https://github.com/hiddify/hiddify-app)**, an open-source multi-platform proxy client (sing-box core).
+
+This repository is a fork of [hiddify/hiddify-app](https://github.com/hiddify/hiddify-app) and is distributed under the same license: [LICENSE.md](LICENSE.md) (GPLv3 with Hiddify's additional conditions). All credit for the original app goes to the Hiddify team.
+
+## Changes made in this fork
+
+- App name changed to "Brabus VPN" (`lib/core/model/constants.dart`, Android label).
+- Android application ID changed to `com.brabusvpn.app` (`android/app/build.gradle`, `res/xml/shortcuts.xml`).
+- Brand theme: matte black with an amber accent (`lib/core/theme/app_theme.dart`).
+- New launcher icon: amber shield with "B" (`res/drawable/ic_launcher_foreground.xml`, `res/values/ic_launcher_background.xml`).
+- Added `.github/workflows/brabus-android.yml`: builds the Android APKs with GitHub Actions.
+
+Releases are built with GitHub Actions only.
+
+---
+
+## Original Hiddify README
+
 <div dir="ltr" align=center>
 
 [**فارسی 🇮🇷**](README_fa.md) / [**Русский 🇷🇺**](README_ru.md) / [**简体中文 🇨🇳**](README_cn.md) / [**日本語 🇯🇵**](README_ja.md) / [**Português-BR 🇧🇷**](README_br.md)
